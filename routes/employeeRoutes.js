@@ -1,0 +1,15 @@
+import express from 'express';
+import { requireAuth, requireRole } from '../middleware/authMiddleware.js';
+import { dashboard, vehicles, saveVehicle, reviews, removeReview, services, updateService, messages, updateMessage } from '../controllers/employeeController.js';
+const router = express.Router();
+router.use(requireAuth, requireRole('employee','owner'));
+router.get('/', dashboard);
+router.get('/vehicles', vehicles);
+router.post('/vehicles/:id/edit', saveVehicle);
+router.get('/reviews', reviews);
+router.post('/reviews/:id/delete', removeReview);
+router.get('/service-requests', services);
+router.post('/service-requests/:id/update', updateService);
+router.get('/messages', messages);
+router.post('/messages/:id/update', updateMessage);
+export default router;

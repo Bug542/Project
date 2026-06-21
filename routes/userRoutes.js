@@ -1,0 +1,13 @@
+import express from 'express';
+import { requireAuth } from '../middleware/authMiddleware.js';
+import { dashboard, reviews, editReview, removeReview, serviceForm, submitService, serviceHistory } from '../controllers/userController.js';
+const router = express.Router();
+router.use(requireAuth);
+router.get('/', dashboard);
+router.get('/reviews', reviews);
+router.post('/reviews/:id/edit', editReview);
+router.post('/reviews/:id/delete', removeReview);
+router.get('/service-requests', serviceHistory);
+router.get('/service-requests/new', serviceForm);
+router.post('/service-requests', submitService);
+export default router;

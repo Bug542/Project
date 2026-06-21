@@ -1,0 +1,1 @@
+Export your ERD from pgAdmin and save it here as erd.png before submitting.

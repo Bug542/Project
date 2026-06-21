@@ -1,0 +1,23 @@
+{
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "db:init": "psql $DATABASE_URL -f database/schema.sql",
+    "db:seed": "node database/seed.js"
+  },
+  "dependencies": {
+    "bcrypt": "latest",
+    "connect-pg-simple": "latest",
+    "dotenv": "latest",
+    "ejs": "latest",
+    "express": "latest",
+    "express-ejs-layouts": "latest",
+    "express-session": "latest",
+    "helmet": "latest",
+    "pg": "latest"
+  },
+  "devDependencies": {
+    "nodemon": "latest"
+  },
+  "type": "module"
+}

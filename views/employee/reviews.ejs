@@ -1,0 +1,1 @@
+<h1>Moderate Reviews</h1><% reviews.forEach(r => { %><article class="card"><h3><%= r.year %> <%= r.make %> <%= r.model %></h3><p><strong><%= r.email %></strong> rated <%= r.rating %>/5</p><p><%= r.review_text %></p><form method="post" action="/employee/reviews/<%= r.review_id %>/delete"><button class="danger">Delete Review</button></form></article><% }) %>

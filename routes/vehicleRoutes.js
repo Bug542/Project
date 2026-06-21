@@ -1,0 +1,11 @@
+import express from 'express';
+import { requireAuth } from '../middleware/authMiddleware.js';
+import { home, listVehicles, vehicleDetail, addReview, contactPage, submitContact } from '../controllers/vehicleController.js';
+const router = express.Router();
+router.get('/', home);
+router.get('/vehicles', listVehicles);
+router.get('/vehicles/:id', vehicleDetail);
+router.post('/vehicles/:id/reviews', requireAuth, addReview);
+router.get('/contact', contactPage);
+router.post('/contact', submitContact);
+export default router;

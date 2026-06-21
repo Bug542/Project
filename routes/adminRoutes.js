@@ -1,0 +1,15 @@
+import express from 'express';
+import { requireAuth, requireRole } from '../middleware/authMiddleware.js';
+import { dashboard, users, saveUserRole, vehicles, addVehicle, removeVehicle, categories, addCategory, removeCategory } from '../controllers/adminController.js';
+const router = express.Router();
+router.use(requireAuth, requireRole('owner'));
+router.get('/', dashboard);
+router.get('/users', users);
+router.post('/users/:id/role', saveUserRole);
+router.get('/vehicles', vehicles);
+router.post('/vehicles', addVehicle);
+router.post('/vehicles/:id/delete', removeVehicle);
+router.get('/categories', categories);
+router.post('/categories', addCategory);
+router.post('/categories/:id/delete', removeCategory);
+export default router;
