@@ -2,7 +2,7 @@
 
 ## Project Description
 
-Brandon Auto is a server-side rendered used car dealership web application built for CSE 340 Web Backend Development. Visitors can browse used vehicles by category, view vehicle details, and send contact messages. Registered users can leave vehicle reviews, edit or delete their own reviews, submit service requests, and view service request history.
+Rexburg Auto is a server-side rendered used car dealership web application built for CSE 340 Web Backend Development. Visitors can browse used vehicles by category, view vehicle details, and send contact messages. Registered users can leave vehicle reviews, edit or delete their own reviews, submit service requests, and view service request history.
 
 Employees can manage service requests, update request statuses, add employee notes, moderate reviews, edit vehicle details, and view contact form submissions. The owner/admin can manage users, categories, and vehicle inventory.
 
