@@ -1,17 +1,26 @@
-<h1>Login</h1>
+<div class="card" style="max-width:480px;margin:2rem auto;padding:2rem;">
+  <h1 style="margin-top:0;">Welcome back</h1>
+  <p style="margin-top:0;color:#4b5563;">Sign in to view your account, service history, and vehicle updates.</p>
 
-<form class="card form" method="POST" action="/login">
-  <label>
-    Email
-    <input type="email" name="email" required>
-  </label>
+  <form class="form" method="post" action="/login">
+    <label>
+      Email
+      <input type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
+    </label>
 
-  <label>
-    Password
-    <input type="password" name="password" required>
-  </label>
+    <label>
+      Password
+      <input type="password" name="password" autocomplete="current-password" placeholder="Enter your password" required>
+    </label>
 
-  <button class="btn" type="submit">Login</button>
-</form>
+    <button class="btn" type="submit">Log in</button>
+  </form>
 
-<p>Test password: <strong>P@$$w0rd!</strong></p>
+  <p style="margin-top:1rem;">Need an account? <a href="/register">Create one here</a>.</p>
+
+  <div class="card" style="margin-top:1rem;background:#f8fafc;">
+    <strong>Demo sign-in</strong>
+    <p style="margin:.4rem 0 0;">Email: owner@test.com</p>
+    <p style="margin:.2rem 0 0;">Password: P@$$w0rd!</p>
+  </div>
+</div>
