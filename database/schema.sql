@@ -1,5 +1,7 @@
+-- Enable pgcrypto so password hashing helpers are available if needed.
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
+-- Core user accounts for customers, employees, and owners.
 CREATE TABLE IF NOT EXISTS users (
   user_id SERIAL PRIMARY KEY,
   first_name VARCHAR(50) NOT NULL,
@@ -10,11 +12,13 @@ CREATE TABLE IF NOT EXISTS users (
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+-- Vehicle categories used to group inventory items.
 CREATE TABLE IF NOT EXISTS categories (
   category_id SERIAL PRIMARY KEY,
   category_name VARCHAR(50) UNIQUE NOT NULL
 );
 
+-- Main inventory table for cars available for sale.
 CREATE TABLE IF NOT EXISTS vehicles (
   vehicle_id SERIAL PRIMARY KEY,
   category_id INTEGER REFERENCES categories(category_id) ON DELETE SET NULL,
@@ -28,6 +32,7 @@ CREATE TABLE IF NOT EXISTS vehicles (
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+-- Store one or more image URLs for each vehicle.
 CREATE TABLE IF NOT EXISTS vehicle_images (
   image_id SERIAL PRIMARY KEY,
   vehicle_id INTEGER NOT NULL REFERENCES vehicles(vehicle_id) ON DELETE CASCADE,
@@ -35,6 +40,7 @@ CREATE TABLE IF NOT EXISTS vehicle_images (
   is_primary BOOLEAN NOT NULL DEFAULT false
 );
 
+-- Customer feedback attached to specific vehicles.
 CREATE TABLE IF NOT EXISTS reviews (
   review_id SERIAL PRIMARY KEY,
   user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
@@ -44,6 +50,7 @@ CREATE TABLE IF NOT EXISTS reviews (
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+-- Service requests created by users and managed by employees/owners.
 CREATE TABLE IF NOT EXISTS service_requests (
   request_id SERIAL PRIMARY KEY,
   user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
@@ -56,6 +63,7 @@ CREATE TABLE IF NOT EXISTS service_requests (
   updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+-- Contact form submissions from site visitors.
 CREATE TABLE IF NOT EXISTS contact_messages (
   message_id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -66,13 +74,18 @@ CREATE TABLE IF NOT EXISTS contact_messages (
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+-- Session table required by connect-pg-simple for storing Express sessions.
 CREATE TABLE IF NOT EXISTS session (
   sid VARCHAR NOT NULL COLLATE "default",
   sess JSON NOT NULL,
   expire TIMESTAMP(6) NOT NULL
 );
+
+-- Ensure the session table has a primary key on the session ID.
 DO $$ BEGIN
   ALTER TABLE session ADD CONSTRAINT session_pkey PRIMARY KEY (sid);
 EXCEPTION WHEN duplicate_object THEN null;
 END $$;
+
+-- Index sessions by expiry to support cleanup and lookup.
 CREATE INDEX IF NOT EXISTS IDX_session_expire ON session(expire);
