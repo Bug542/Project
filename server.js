@@ -19,24 +19,29 @@ import {
 const app = express();
 const PgSession = pgSession(session);
 
-// Render places the application behind a proxy.
-// This allows secure session cookies to work in production.
+// Trust the reverse proxy so secure cookies work correctly when the app runs behind one.
 app.set('trust proxy', 1);
 
+// Security middleware: adds common HTTP headers to reduce exposure to common web vulnerabilities.
 app.use(
   helmet({
     contentSecurityPolicy: false
   })
 );
 
+// Body parser middleware: allows the app to read form data and JSON payloads from incoming requests.
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Static file middleware: serves assets from the public folder directly to the browser.
 app.use(express.static('public'));
 
+// View engine middleware: configure EJS as the template engine and use a shared layout for pages.
 app.set('view engine', 'ejs');
 app.set('layout', 'layouts/main');
 app.use(expressLayouts);
 
+// Session middleware: stores session data in PostgreSQL and attaches the session object to each request.
 app.use(
   session({
     store: new PgSession({
@@ -56,6 +61,7 @@ app.use(
   })
 );
 
+// Local view middleware: exposes user and flash-style message values to templates on every request.
 app.use((req, res, next) => {
   res.locals.currentUser = req.session.user || null;
   res.locals.success = req.session.success || null;
@@ -67,6 +73,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// Route middleware: routes are mounted in order so requests are matched by the appropriate controller.
 app.use('/', vehicleRoutes);
 app.use('/', authRoutes);
 app.use('/account', userRoutes);
