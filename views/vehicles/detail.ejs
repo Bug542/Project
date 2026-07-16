@@ -1,1 +1,67 @@
-<section class="vehicle-detail"><div><img class="detail-img" src="<%= images[0]?.image_url || '/images/placeholder.svg' %>" alt="Vehicle image"></div><div><h1><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h1><p class="price">$<%= Number(vehicle.price).toLocaleString() %></p><p><strong>Category:</strong> <%= vehicle.category_name %></p><p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %></p><p><strong>Status:</strong> <%= vehicle.availability %></p><p><%= vehicle.description %></p></div></section><section><h2>Reviews</h2><% if (currentUser) { %><form class="card form" method="post" action="/vehicles/<%= vehicle.vehicle_id %>/reviews"><label>Rating<select name="rating"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label><label>Review<textarea name="reviewText" required></textarea></label><button class="btn">Add Review</button></form><% } else { %><p><a href="/login">Login</a> to leave a review.</p><% } %><% reviews.forEach(r => { %><article class="card"><strong><%= r.first_name %> <%= r.last_name %></strong><p>Rating: <%= r.rating %>/5</p><p><%= r.review_text %></p></article><% }) %></section>
+<section class="vehicle-detail">
+  <div>
+    <img class="detail-img" src="<%= images[0]?.image_url || '/images/placeholder.svg' %>" alt="<%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>">
+  </div>
+  <div class="vehicle-info">
+    <p class="vehicle-badge"><%= vehicle.category_name %></p>
+    <h1><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h1>
+    <p class="price">$<%= Number(vehicle.price).toLocaleString() %></p>
+
+    <div class="vehicle-specs">
+      <div>
+        <span class="spec-label">Mileage</span>
+        <span><%= Number(vehicle.mileage).toLocaleString() %> mi</span>
+      </div>
+      <div>
+        <span class="spec-label">Status</span>
+        <span><%= vehicle.availability %></span>
+      </div>
+      <div>
+        <span class="spec-label">Category</span>
+        <span><%= vehicle.category_name %></span>
+      </div>
+    </div>
+
+    <h2>Overview</h2>
+    <p><%= vehicle.description %></p>
+  </div>
+</section>
+
+<section class="review-section">
+  <div class="section-heading">
+    <h2>Customer Reviews</h2>
+    <p>See what other buyers are saying about this vehicle.</p>
+  </div>
+
+  <% if (currentUser) { %>
+    <form class="card form review-form" method="post" action="/vehicles/<%= vehicle.vehicle_id %>/reviews">
+      <label>
+        Rating
+        <select name="rating">
+          <option value="5">5 - Excellent</option>
+          <option value="4">4 - Very Good</option>
+          <option value="3">3 - Good</option>
+          <option value="2">2 - Fair</option>
+          <option value="1">1 - Poor</option>
+        </select>
+      </label>
+      <label>
+        Review
+        <textarea name="reviewText" placeholder="Share your experience with this vehicle" required></textarea>
+      </label>
+      <button class="btn">Add Review</button>
+    </form>
+  <% } else { %>
+    <p class="card"><a href="/login">Login</a> to leave a review.</p>
+  <% } %>
+
+  <% reviews.forEach(r => { %>
+    <article class="card review-card">
+      <div class="row">
+        <strong><%= r.first_name %> <%= r.last_name %></strong>
+        <span class="review-rating">★ <%= r.rating %>/5</span>
+      </div>
+      <p><%= r.review_text %></p>
+    </article>
+  <% }) %>
+</section>
